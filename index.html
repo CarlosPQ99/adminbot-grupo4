@@ -1,1 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1">
+  <title>AdminBot | Gestión Administrativa</title>
 
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef4f8;
+      color: #153b62;
+    }
+
+    .barra {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 14px 24px;
+      background: white;
+      border-bottom: 1px solid #dce6ed;
+    }
+
+    .marca { font-weight: bold; }
+
+    .barra a {
+      color: #087f9f;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    iframe {
+      width: 100%;
+      height: calc(100dvh - 54px);
+      min-height: 790px;
+      display: block;
+      border: 0;
+    }
+
+    #error {
+      margin: 30px auto;
+      max-width: 700px;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    [hidden] { display: none !important; }
+
+    @media (max-width: 600px) {
+      .barra { padding: 14px; }
+      iframe { min-height: 850px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra">
+    <span class="marca">AdminBot · Grupo 4</span>
+    <a id="abrir" target="_blank" rel="noopener noreferrer" hidden>
+      Abrir en otra pestaña ↗
+    </a>
+  </nav>
+
+  <p id="error" hidden></p>
+
+  <iframe id="bot"
+    title="Chatbot de gestión administrativa"
+    hidden>
+  </iframe>
+
+  <script>
+    // Reemplaza este texto por tu URL real terminada en /exec.
+    const APP_URL = 'https://script.google.com/macros/s/AKfycby5QJYu-FIvb-ARawjTVg4Na_G3h8Bmas72Xu4Jkiqk_dn-PNb6tMY_B7bcmvroO7HUmQ/exec';
+
+    const bot = document.getElementById('bot');
+    const abrir = document.getElementById('abrir');
+    const error = document.getElementById('error');
+
+    try {
+      const url = new URL(APP_URL);
+
+      if (url.protocol !== 'https:' ||
+          url.hostname !== 'script.google.com' ||
+          !url.pathname.endsWith('/exec')) {
+        throw new Error('URL de Apps Script inválida.');
+      }
+
+      bot.src = url.href;
+      bot.hidden = false;
+      abrir.href = url.href;
+      abrir.hidden = false;
+
+    } catch (e) {
+      error.textContent =
+        'Falta configurar la URL de la aplicación. ' +
+        'Edita APP_URL en index.html y coloca la dirección ' +
+        'de Apps Script terminada en /exec.';
+      error.hidden = false;
+    }
+  </script>
+</body>
+</html>
